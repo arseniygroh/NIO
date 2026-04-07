@@ -20,7 +20,9 @@ public class Main {
         InboxArchiver.archiveTmpFiles(Path.of("files"), Path.of("archive"));
         Path resultSafety = PathSafety.safeResolve(Path.of("files"), "reports/2025.txt");
         System.out.println(resultSafety);
-        Path resultSafetyWrong = PathSafety.safeResolve(Path.of("files"), "../secret.txt");
-        System.out.println(resultSafety);
+        //Path resultSafetyWrong = PathSafety.safeResolve(Path.of("files"), "../secret.txt");
+        //System.out.println(resultSafety);
+
+        StatusFile.updateStatus(Path.of("files/status.bin"), 5, (byte) 1);
     }
 }
