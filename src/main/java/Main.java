@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -24,5 +25,16 @@ public class Main {
         //System.out.println(resultSafety);
 
         StatusFile.updateStatus(Path.of("files/status.bin"), 5, (byte) 1);
+
+        List<Long> offsets = LogIndexer.indexLines(Path.of("files/app.log"), "ERROR");
+        LogIndexer.writeIndexFile(Path.of("files/error.idx"), offsets);
+
+        List<String> errorLines = new ArrayList<>();
+        for (int i = 0; i < offsets.size(); i++) {
+            errorLines.add(LogReader.readLineAt(Path.of("files/app.log"), offsets.get(i)));
+        }
+        errorLines.forEach(line -> System.out.println(line));
+
+        ErrorReportWriter.generateReport(Path.of("files/error-summary.txt"),errorLines);
     }
 }
